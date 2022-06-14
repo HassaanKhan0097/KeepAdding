@@ -50,6 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'KeepAdding';
+// $route['default_controller'] = 'Products';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -61,6 +63,8 @@ $route['translate_uri_dashes'] = FALSE;
 $route['signin'] = 'KeepAdding/signin';
 $route['signin_submit'] = 'KeepAdding/signin_submit';
 $route['signout'] = 'KeepAdding/signout';
+
+$route['signup'] = 'KeepAdding/signup';
 
 
 
@@ -87,3 +91,15 @@ $route['contractorpages'] = 'contractorpages/Index'; //here appraiserpages is fo
 // $route['appraiser/setup'] = 'appraiserpages/Setup';
 
 // $route['appraiser/log'] = 'appraiserpages/Log';
+
+
+// !!------------- Paypal Routes  ----------------------!!
+    $route['paypal'] = 'Payment';
+    $route['paypal/success'] = 'Payment/success';
+    $route['paypal/fail'] = 'Payment/fail';
+    $route['paypal/ipn'] = 'Payment/ipn';
+
+
+    // $route['paypal/success'] = 'Paypal/success';
+    // $route['paypal/fail'] = 'Paypal/fail';
+    // $route['paypal/ipn'] = 'Paypal/ipn';

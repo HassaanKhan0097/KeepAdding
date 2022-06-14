@@ -26,7 +26,8 @@ class Users_Model extends CI_Model {
     // !!--------------- Util Functions --------------!!
     public function login($data)
     {
-        $query = $this->db->where("user_username=",$data['user_username'])->get("users");
+        $multiClause = array('user_username' => $data['user_username'], 'is_active' => 1);
+        $query = $this->db->where($multiClause)->get("users");
         if($query->num_rows() > 0) {
 
             // var_dump($query->row());
@@ -65,6 +66,11 @@ class Users_Model extends CI_Model {
             return "Registration Failed!";
 
         }
+    }
+
+    public function lastId(){
+        $result = $this->db->select('user_id')->from('users')->order_by('user_id', 'desc')->limit(1)->get();
+        return $result->row();
     }
 
     

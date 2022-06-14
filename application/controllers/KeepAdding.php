@@ -86,24 +86,56 @@ class KeepAdding extends CI_Controller {
 
         if ($this->form_validation->run() == TRUE) {
 
+            $data['user_role'] = $this->input->post('user_role');
+            $data['user_package'] = $this->input->post('user_package');
+            $data['user_package_type'] = $this->input->post('user_package_type');
+            $data['user_price'] = $this->input->post('user_price');
+
+            $expire = "2030-01-01";
+            
+
+            if($data['user_role'] != 1 &&  $data['user_package_type'] == "Monthly" ){
+                $expire =  Date('Y-m-d', strtotime('+30 days'));
+            }else if($data['user_role'] != 1 && $data['user_package_type'] == "Annually"){
+                $expire =  Date('Y-m-d', strtotime('+365 days'));
+            }
+            
+            $data['user_expire'] = $expire;
+            $data['user_created'] = date("Y-m-d");
+
             $data['user_username'] = $this->input->post('user_username');
             $data['user_email'] = $this->input->post('user_email');
             $data['user_fullname'] = $this->input->post('user_fullname');
             $data['user_pass'] = $this->input->post('user_pass');
-            $data['user_role'] = '3';
+            $data['is_active'] = 1;
+            // $data['user_role'] = '3';
 
-            $result = $this->Users_Model->signup($data);
+
+            
+            if($data['user_role'] == 1){
+                $result = $this->Users_Model->signup($data);
+            }else{
+
+                $this->session->set_userdata('registerSession', $data);
+
+
+                $see = $this->session->userdata('registerSession'); 
+
+                // echo "<pre>";
+                // print_r($see);
+                redirect('paypal');
+            }
 
 			//var_dump($result);
 
-            if(!is_array($result)){
-                $this->session->set_flashdata('message_error', $result);
-                redirect('signup');
-            } else {
-                //assign returned data from model to session
-                $this->session->set_userdata('loggedUser_KeepAdding', $result);
-                $this->index();
-            }
+            // if(!is_array($result)){
+            //     $this->session->set_flashdata('message_error', $result);
+            //     redirect('signup');
+            // } else {
+            //     //assign returned data from model to session
+            //     $this->session->set_userdata('loggedUser_KeepAdding', $result);
+            //     $this->index();
+            // }
             
         } 
         else {
