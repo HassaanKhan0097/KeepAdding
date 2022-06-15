@@ -48,7 +48,12 @@
               <div class="brand-logo">
               <img src="<?php echo base_url(); ?>assets/images/logo.png" alt="logo" class="logo-center">
               </div>
+              <?php 
+                  $forum_feature = json_decode($subscription_list[0]->s_feature);
+                  $contractor_feature = json_decode($subscription_list[1]->s_feature);
+                  $business_feature = json_decode($subscription_list[2]->s_feature);
               
+              ?>    
 
               <div id="pricing_table">
 
@@ -60,17 +65,29 @@
                     <div class="card">
                       <div class="card-header">
                         <h3>Free User</h3>
-                        <h6>-</h6>
-                        <h6>-</h6>
+                        <h6><?=$subscription_list[0]->s_monthly?></h6>
+                        <h6><?=$subscription_list[0]->s_annually?></h6>
                       </div>
 
                       <div class="card-body">
                       <!-- <h4 class="card-title">Free User</h4> -->
                         <ul>
-                          <li><i class="mdi mdi-check-circle-outline"></i>Access to the social forums</li>
+
+                          <?php
+                              for($i=1;$i<=count($forum_feature);$i++){
+                                  $temp = $forum_feature[$i-1];
+                          ?>
+                          <li><i class="mdi mdi-check-circle-outline"></i><?=$temp->feat?></li>
+                      
+                          <?php
+                              }
+                          ?>
+
+
+                          <!-- <li><i class="mdi mdi-check-circle-outline"></i>Access to the social forums</li>
                           <li><i class="mdi mdi-check-circle-outline"></i>Ability to create a custom profile</li>
                           <li><i class="mdi mdi-check-circle-outline"></i>Ability to create Pledges</li>
-                          <li><i class="mdi mdi-check-circle-outline"></i>Access the details of current projects (view only)</li>
+                          <li><i class="mdi mdi-check-circle-outline"></i>Access the details of current projects (view only)</li> -->
                         </ul>
 
                         
@@ -86,19 +103,32 @@
                     <div class="card">
                       <div class="card-header">
                         <h3>Contractors</h3>
-                        <h6>$39.99/Month</h6>
-                        <h6>$399 Annual (Annual savings of $80.88)</h6>
+                        <h6>$<?=$subscription_list[1]->s_monthly?>/Month</h6>
+                        <h6>$<?=$subscription_list[1]->s_annually?> Annual (Annual savings of $<?=($subscription_list[1]->s_monthly * 12) - $subscription_list[1]->s_annually ?>)</h6>
                       </div>
 
                       <div class="card-body">
+
+                      
                       
                         <ul>
+
+                        <?php
+                              for($i=1;$i<=count($contractor_feature);$i++){
+                                  $temp = $contractor_feature[$i-1];
+                          ?>
+                          <li><i class="mdi mdi-check-circle-outline"></i><?=$temp->feat?></li>
+                      
+                          <?php
+                              }
+                          ?>
+<!--                           
                           <li><i class="mdi mdi-check-circle-outline"></i>Access to  the social forums</li>
                           <li><i class="mdi mdi-check-circle-outline"></i>Ability to create a custom profile with links for portfolio/CV materials</li>
                           <li><i class="mdi mdi-check-circle-outline"></i>Ability to create pledges and view pledge details made by other users</li>
                           <li><i class="mdi mdi-check-circle-outline"></i>Ability to submit bids on projects</li>
                           <li><i class="mdi mdi-check-circle-outline"></i>Communicate with business profiles</li>
-                          <li><i class="mdi mdi-check-circle-outline"></i>Also includes discounts on some Serv Inc. products & services as well as that of its partners, affiliates, and subsidiaries. Some restrictions apply*</li>
+                          <li><i class="mdi mdi-check-circle-outline"></i>Also includes discounts on some Serv Inc. products & services as well as that of its partners, affiliates, and subsidiaries. Some restrictions apply*</li> -->
                         </ul>
 
                        
@@ -119,18 +149,29 @@
                     <div class="card">
                       <div class="card-header">
                         <h3>Business</h3>
-                        <h6>$59.99/Month</h6>
-                        <h6>$599 Annual (Annual savings of $120.88)</h6>
+                        <h6>$<?=$subscription_list[2]->s_monthly?>/Month</h6>
+                        <h6>$<?=$subscription_list[2]->s_annually?> Annual (Annual savings of $<?=($subscription_list[2]->s_monthly * 12) - $subscription_list[2]->s_annually ?>)</h6>
+
                       </div>
 
                       <div class="card-body">
        
                         <ul>
-                          <li><i class="mdi mdi-check-circle-outline"></i>Includes all features included in lower tiers</li>
+                        <?php
+                              for($i=1;$i<=count($business_feature);$i++){
+                                  $temp = $business_feature[$i-1];
+                          ?>
+                          <li><i class="mdi mdi-check-circle-outline"></i><?=$temp->feat?></li>
+                      
+                          <?php
+                              }
+                          ?>
+                          
+                          <!-- <li><i class="mdi mdi-check-circle-outline"></i>Includes all features included in lower tiers</li>
                           <li><i class="mdi mdi-check-circle-outline"></i>Ability to create projects</li>
                           <li><i class="mdi mdi-check-circle-outline"></i>Issue requests for proposals, and reach out to any profile on the platform</li>
                           <li><i class="mdi mdi-check-circle-outline"></i>Four (4) annual Assessment Meetings with our Business & research Development staff for free project development services</li>
-                          <li><i class="mdi mdi-check-circle-outline"></i>This service includes quarterly publishings of project development updates and resources by industry, feedback on project planning, pledge analysis to help link users' relevant networks and resources. Discounts on all Serv Inc. products & services as well as select products & services of its partners, affiliates, and subsidiaries.</li>
+                          <li><i class="mdi mdi-check-circle-outline"></i>This service includes quarterly publishings of project development updates and resources by industry, feedback on project planning, pledge analysis to help link users' relevant networks and resources. Discounts on all Serv Inc. products & services as well as select products & services of its partners, affiliates, and subsidiaries.</li> -->
                          
                         </ul>
 
@@ -264,10 +305,10 @@
       $("input[name=user_role]").val(packages.replace("_",""));
 
 
-      if(packages == '_2' && package_type == 'Monthly'){ user_price = '39.99'; }
-      else if(packages == '_2' && package_type == 'Annually'){ user_price = '399'; }
-      else if(packages == '_3' && package_type == 'Monthly'){ user_price = '59.99'; }
-      else if(packages == '_3' && package_type == 'Annually'){ user_price = '599'; }
+      if(packages == '_2' && package_type == 'Monthly'){ user_price = "<?=$subscription_list[1]->s_monthly?>"; }
+      else if(packages == '_2' && package_type == 'Annually'){ user_price = "<?=$subscription_list[1]->s_annually?>"; }
+      else if(packages == '_3' && package_type == 'Monthly'){ user_price = "<?=$subscription_list[2]->s_monthly?>"; }
+      else if(packages == '_3' && package_type == 'Annually'){ user_price = "<?=$subscription_list[2]->s_annually?>"; }
 
       $("input[name=user_price]").val(user_price);
 

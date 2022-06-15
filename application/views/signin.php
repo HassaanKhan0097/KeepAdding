@@ -58,6 +58,29 @@
                     <i class="ti-facebook mr-2"></i>Connect using facebook
                   </button>
                 </div> -->
+
+                <?php if( $this->session->flashdata('message_error') ) { ?>
+
+                <div class="col-12 mt-4">
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo $this->session->flashdata('message_error'); 
+                        
+                        
+                        
+                        ?>
+
+                    </div>
+
+                    <?php if($this->session->flashdata('message_error') == "Package is expired"){ ?>
+
+                  <input type="text" class="form-control form-control-lg" placeholder="Username" name="user_username" value="">
+
+                  <?php } ?>
+
+                </div>
+
+                <?php } ?>
+
                 <div class="text-center mt-4 font-weight-light">
                   Don't have an account? <a href="<?php echo base_url(); ?>KeepAdding/signup"  class="text-primary">Create</a>
                 </div>

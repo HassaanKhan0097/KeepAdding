@@ -26,22 +26,37 @@ class Users_Model extends CI_Model {
     // !!--------------- Util Functions --------------!!
     public function login($data)
     {
-        $multiClause = array('user_username' => $data['user_username'], 'is_active' => 1);
+        $multiClause = array('user_username' => $data['user_username'], 'is_active' => 1 );
         $query = $this->db->where($multiClause)->get("users");
         if($query->num_rows() > 0) {
 
+            // "DATE_FORMAT(user_expire,'%Y-%m-%d') >= NOW()"
+
             // var_dump($query->row());
+              // if( password_verify($data['user_pass'], $user['user_pass']) ) {
             $user = $query->result_array()[0];
-            // if( password_verify($data['user_pass'], $user['user_pass']) ) {
-            if( $data['user_pass'] == $user['user_pass'] ) {
+
+            $date = new DateTime($user['user_expire']);
+            $now = new DateTime();
+
+             if( $data['user_pass'] == $user['user_pass'] ) {
+
+                if($date < $now) {
+                    return "Package is expired";
+    
+                }else{
+                    return $user;
+                }
                 
-                return $user;
+                
 
             } else {
 
                 return "Wrong Password";
 
             }
+
+            
 
         } else {
 
@@ -71,6 +86,15 @@ class Users_Model extends CI_Model {
     public function lastId(){
         $result = $this->db->select('user_id')->from('users')->order_by('user_id', 'desc')->limit(1)->get();
         return $result->row();
+    }
+
+    public function update_expire_date($data){
+        $id = $data['user_id'];
+        
+        $this->db->where('user_id', $id);
+        $this->db->update('users', $data);
+        $result = $this->db->affected_rows();
+        return $result;
     }
 
     

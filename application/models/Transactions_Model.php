@@ -15,6 +15,17 @@ class Transactions_Model extends CI_Model {
         return $query->row();
     }
 
+    public function getByUserId($id)
+    {
+        $this->db->select('*');
+        $this->db->from('transactions t');
+        $this->db->where('t_user_id', $id);
+        $this->db->order_by('t_id', 'desc');
+        
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 
     public function storeTransaction($data){
         $this->db->insert("transactions", $data);

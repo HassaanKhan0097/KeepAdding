@@ -292,7 +292,8 @@
                         <ul class="tabs">
                               <li class="tab-link active" data-tab="1">Personal Info</li>
                               <li class="tab-link" data-tab="2">Documents</li>
-                              <li class="tab-link" data-tab="3">Extra Tab</li>
+                              <li class="tab-link" data-tab="3">Subscription</li>
+                             
                         </ul>
                      </div>
 
@@ -429,7 +430,97 @@
 
                         </div>
 
-                        <div id="tab-3"class="profile-tab-content">jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers.</div>
+                        <div id="tab-3" class="profile-tab-content">
+                           <div class="card box">
+                                    <div class="card-body">
+                                       <h4 class="card-title">Subscription</h4>
+                                       <div class="media">
+                                          <div class="media-body">
+                                             <div class="row">
+
+                                                <div class="col-md-3 col-sm-6">
+                                                   <div class="name">
+                                                      <h4>Current Pacakge: </h4> 
+                                                      <p class="card-text"><?php 
+                                                      $role = $this->session->userdata('loggedUser_KeepAdding')['user_role'];
+                                                      if($role == '2') { echo "Contractor" ; }
+                                                      else if($role == '3') { echo "Business" ; }
+                                                      ?></p>
+                                                   </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-6">
+                                                   <div class="name">
+                                                      <h4>Expire Date: </h4> 
+                                                      <p class="card-text"><?php echo date('F j, Y' , strtotime($this->session->userdata('loggedUser_KeepAdding')['user_expire'])); ?></p>
+                                                   </div>
+                                                </div>
+                                                <div class="col-md-3 col-sm-6">
+                                                   <!-- <div class="name">
+                                                      <h4>Email: </h4> 
+                                                      <p class="card-text"><?php echo $this->session->userdata('loggedUser_KeepAdding')['user_email']; ?></p>
+                                                   </div> -->
+                                                </div>
+
+
+
+                                                </div>
+
+                                                <div class="row">
+                                                   <div class="col-md-12">
+                                                      <h4 class="card-title mt-3">Update Package</h4>
+
+
+                                                      <form action="<?=base_url()?>Profile/pay_update" method="post">
+
+                                                         <div class="form-group">
+                                                            <select name="package_role" class="form-control" onchange="package_rol(this.value)">
+                                                               <option value="">Select Package</option>
+                                                               <option value="2">Contractor User</option>
+                                                               <option value="3">Business User</option>
+                                                            </select>
+                                                         </div>
+                                                         
+
+                                                         <div class="form-group">
+
+                                                            <div id="contractor_amount">
+                                                               Monthly: <b> USD <?=$subscription_list[1]->s_monthly?></b> <br>
+                                                               Annually: <b> USD <?=$subscription_list[1]->s_annually?></b>
+                                                            </div>
+
+                                                            <div id="business_amount">
+                                                               Monthly: <b> USD <?=$subscription_list[2]->s_monthly?></b> <br>
+                                                               Annually: <b> USD <?=$subscription_list[2]->s_annually?></b>
+                                                            </div>
+
+                                                         
+                                                         </div>
+
+                                                         <div class="form-group">
+                                                            <select name="user_package_type" class="form-control" onchange="user_package_typ(this.value)">
+                                                               <option value="">Select Package Type</option>
+                                                               <option value="Monthly">Monthly</option>
+                                                               <option value="Annually">Annually</option>
+                                                            </select>
+                                                         </div>
+
+
+                                                         <input type="text" class="d-none" name="amount" >
+
+                                                         <input type="submit" class="btn btn-primary float-right" value="Submit">
+                                                      </form>
+                                                   </div>
+
+
+                                                </div>
+
+                                                
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                        
+                        </div>
 
                      </div>
                      
@@ -480,6 +571,8 @@
       <!-- End custom js for this page-->
 
       <script>
+       $("#contractor_amount").hide();
+      $("#business_amount").hide();
 $('.tab-link').click( function() {
 	
 	var tabID = $(this).attr('data-tab');
@@ -489,6 +582,26 @@ $('.tab-link').click( function() {
 	$('#tab-'+tabID).addClass('active').siblings().removeClass('active');
 });
 
+
+function package_rol(v){
+   if(v==2){
+      $("#contractor_amount").show();
+      $("#business_amount").hide();
+   }else if (v==3){
+      $("#contractor_amount").hide();
+      $("#business_amount").show();
+   }
+}
+
+function user_package_typ(v){
+
+   r = $("select[name=package_role]").val();
+
+   if(v == "Monthly" && r == '2'){ $("input[name=amount]").val( <?=$subscription_list[1]->s_monthly?>  );}
+   else if(v == "Annually" && r == '2'){ $("input[name=amount]").val( <?=$subscription_list[1]->s_annually?>  );}
+   else if(v == "Monthly" && r == '3'){ $("input[name=amount]").val( <?=$subscription_list[2]->s_monthly?>  );}
+   else if(v == "Annually" && r == '3'){ $("input[name=amount]").val( <?=$subscription_list[2]->s_annually?>  );}
+}
       </script>
    </body>
 </html>

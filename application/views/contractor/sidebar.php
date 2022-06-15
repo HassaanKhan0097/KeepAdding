@@ -119,6 +119,12 @@
             </ul>
          </div>
       </li>
+      <li class="nav-item">
+         <a class="nav-link" href="<?php echo base_url(); ?>transaction">
+         <i class="icon-upload menu-icon"></i>
+         <span class="menu-title">Transactions</span>
+         </a>
+      </li>
 
    </ul>
 </nav>

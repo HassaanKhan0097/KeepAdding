@@ -100,6 +100,19 @@ $route['contractorpages'] = 'contractorpages/Index'; //here appraiserpages is fo
     $route['paypal/ipn'] = 'Payment/ipn';
 
 
+    $route['paypal_update'] = 'Payment/update';
+    $route['paypal_update/success'] = 'Payment/success_update';
+    $route['paypal_update/fail'] = 'Payment/fail_update';
+    $route['paypal_update/ipn'] = 'Payment/ipn_update';
+
+    
+
+
     // $route['paypal/success'] = 'Paypal/success';
     // $route['paypal/fail'] = 'Paypal/fail';
     // $route['paypal/ipn'] = 'Paypal/ipn';
+
+    $route['transaction'] = 'Transactions';
+
+
+    

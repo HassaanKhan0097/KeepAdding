@@ -7,6 +7,7 @@ class KeepAdding extends CI_Controller {
         parent::__construct();
 
         $this->load->model('Users_Model');
+        $this->load->model('Subscription_Model');
 
     }
 	
@@ -42,7 +43,8 @@ class KeepAdding extends CI_Controller {
 
     public function signup()
 	{
-		$this->load->view('signup');
+        $data['subscription_list'] = $this->Subscription_Model->get();   
+		$this->load->view('signup',$data);
 	}
 
 
@@ -119,7 +121,7 @@ class KeepAdding extends CI_Controller {
                 $this->session->set_userdata('registerSession', $data);
 
 
-                $see = $this->session->userdata('registerSession'); 
+                // $see = $this->session->userdata('registerSession'); 
 
                 // echo "<pre>";
                 // print_r($see);

@@ -13,6 +13,8 @@ class Profile extends CI_Controller {
         
         $this->load->model('Projects_Model');
         $this->load->model('Proposals_Model');
+        $this->load->model('Subscription_Model');
+        
         
         
 
@@ -21,8 +23,8 @@ class Profile extends CI_Controller {
 	
 	public function index()
 	{        
-        //$data['projects'] = $this->Projects_Model->get(); 
-        $this->load->view('profile');
+        $data['subscription_list'] = $this->Subscription_Model->get(); 
+        $this->load->view('profile', $data);
 	}
 
     public function get($id)
@@ -32,7 +34,34 @@ class Profile extends CI_Controller {
         $data['proposals_count'] = count($data['proposals']);
 
         $this->load->view('project-view', $data);
-	}
+    }
+    
+    public function pay_update(){
+
+        $data['package_role'] = $this->input->post('package_role');
+        $data['user_package_type'] = $this->input->post('user_package_type');
+        $data['amount'] = $this->input->post('amount');
+        $data['user_id'] = $this->loggedUser['user_id'];
+
+
+        if( $data['user_package_type'] == "Monthly" ){
+            $expire =  Date('Y-m-d', strtotime('+30 days'));
+        }else if($data['user_package_type'] == "Annually"){
+            $expire =  Date('Y-m-d', strtotime('+365 days'));
+        }
+        
+        $data['user_expire'] = $expire;
+
+
+
+        $this->session->set_userdata('pay_update', $data);
+
+        redirect('paypal_update');
+                
+
+
+
+    }
 
     public function create()
 	{       

@@ -27,7 +27,9 @@ $config['base_url'] = 'http://localhost/KeepAdding/';
 // $config['base_url'] = 'http://keepadding.co/KeepAdding/';
 
 $config['forum_url'] = 'http://localhost/Forum/';
-// $config['forum_url'] = 'http://keepadding.co/Forum/';
+// $config['forum_url'] = 'http://keepadding.co/Forum/;
+
+$config['admin_url'] = 'http://localhost/adminForum/';
 
 $config['upload_dir']= $config['base_url']."/uploads/";
 
